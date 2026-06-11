@@ -3,54 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SwiftDrop – Livraison Ultra-Rapide</title>
-<!-- DM Sans : sobre, lisible, neutre professionnel -->
+<title>YourDrop – Livraison Ultra-Rapide</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<!-- Font Awesome 6 Free -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-/* ════════════════════════════════════════
-   RESET
-════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 img{display:block;max-width:100%}
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
 button{font-family:inherit;cursor:pointer}
 
-/* ════════════════════════════════════════
-   DESIGN TOKENS
-════════════════════════════════════════ */
 :root{
-  /* brand */
   --or:   #F94F1E;
   --or2:  #D93D0C;
   --or-lt:#FFF0EB;
   --ory:  #FF8040;
-
-  /* neutrals */
   --dk:   #0F1216;
   --dk2:  #181C22;
   --dk3:  #232930;
   --dk4:  #2E3540;
-
-  /* light */
   --wh:   #FFFFFF;
   --wh2:  #F7F8FA;
   --wh3:  #EDEEF2;
   --txt:  #18202C;
   --mu:   #687080;
   --mu2:  #A0AABB;
-
-  /* semantic */
   --grn: #16A34A;
   --blu: #2563EB;
   --ylw: #D97706;
-
-  /* spacing & shape */
   --r:    10px;
   --rlg:  16px;
   --px:   clamp(16px, 5.5vw, 88px);
-
-  /* shadows */
   --sh:   0 2px 16px rgba(0,0,0,.07);
   --shm:  0 6px 32px rgba(0,0,0,.12);
   --shl:  0 14px 48px rgba(0,0,0,.18);
@@ -63,9 +47,6 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* ════════════════════════════════════════
-   TYPOGRAPHY HELPERS
-════════════════════════════════════════ */
 .t-display{font-size:clamp(2.2rem,5.5vw,4.4rem);font-weight:700;line-height:1.08;letter-spacing:-.03em}
 .t-h2    {font-size:clamp(1.3rem,2.5vw,1.75rem);font-weight:600;line-height:1.25;letter-spacing:-.02em}
 .t-h3    {font-size:clamp(1rem,1.8vw,1.15rem);font-weight:600;line-height:1.3;letter-spacing:-.01em}
@@ -75,9 +56,7 @@ body{
 .t-label {font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .fw6{font-weight:600}.fw7{font-weight:700}
 
-/* ════════════════════════════════════════
-   NAVBAR
-════════════════════════════════════════ */
+/* NAVBAR */
 .navbar{
   position:fixed;inset:0 0 auto;z-index:1000;
   display:flex;align-items:center;justify-content:space-between;
@@ -89,8 +68,6 @@ body{
   backdrop-filter:blur(18px);
   box-shadow:0 1px 0 rgba(255,255,255,.06);
 }
-
-/* logo */
 .logo{display:flex;align-items:center;gap:8px;color:#fff}
 .logo-mark{
   width:34px;height:34px;background:var(--or);border-radius:8px;
@@ -99,20 +76,22 @@ body{
 .logo-mark svg{width:20px;height:20px}
 .logo-text{font-size:1.05rem;font-weight:700;letter-spacing:-.02em;color:#fff}
 .logo-text b{color:var(--ory);font-weight:700}
-
-/* links */
 .nav-links{display:flex;gap:26px}
 .nav-links a{
   color:rgba(255,255,255,.75);
   font-size:.875rem;font-weight:500;
-  transition:color .15s;
+  transition:color .15s;position:relative;
 }
 .nav-links a:hover{color:#fff}
 .nav-links a.active{color:var(--ory)}
-
-/* right zone */
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;
+  background:var(--or);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .22s ease;
+}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
 .nav-right{display:flex;align-items:center;gap:10px}
-
 .nav-search{
   display:flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.08);
@@ -132,12 +111,7 @@ body{
 }
 .nav-sbtn:hover{background:var(--or)}
 .nav-sbtn svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
-
-.nav-lang{
-  color:rgba(255,255,255,.7);font-size:.82rem;
-  font-weight:500;cursor:pointer;white-space:nowrap;
-}
-
+.nav-lang{color:rgba(255,255,255,.7);font-size:.82rem;font-weight:500;cursor:pointer;white-space:nowrap;}
 .nav-cta{
   display:flex;align-items:center;gap:6px;
   background:var(--or);color:#fff;
@@ -147,15 +121,11 @@ body{
 }
 .nav-cta:hover{background:var(--or2)}
 .nav-cta svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2}
-
-/* hamburger */
 .hbg{display:none;flex-direction:column;gap:4px;padding:6px;cursor:pointer;border-radius:6px}
 .hbg span{display:block;width:20px;height:1.5px;background:#fff;border-radius:2px;transition:all .25s}
 .hbg.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
 .hbg.open span:nth-child(2){opacity:0}
 .hbg.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
-
-/* mobile drawer */
 .mdrw{
   display:none;position:fixed;
   top:64px;left:0;right:0;bottom:0;
@@ -179,9 +149,7 @@ body{
   border:none;width:100%;text-align:center;
 }
 
-/* ════════════════════════════════════════
-   HERO
-════════════════════════════════════════ */
+/* HERO */
 .hero{
   position:relative;width:100%;height:100vh;min-height:600px;
   display:flex;align-items:center;justify-content:center;overflow:hidden;
@@ -192,27 +160,20 @@ body{
   animation:hzoom 20s ease-in-out infinite alternate;
 }
 @keyframes hzoom{from{transform:scale(1.02)}to{transform:scale(1.07)}}
-
 .hero-ov{
   position:absolute;inset:0;
-  background:
-    linear-gradient(180deg,rgba(15,18,22,.72) 0%,rgba(15,18,22,.38) 46%,rgba(15,18,22,.75) 100%);
+  background:linear-gradient(180deg,rgba(15,18,22,.72) 0%,rgba(15,18,22,.38) 46%,rgba(15,18,22,.75) 100%);
 }
 .hero-streak{
   position:absolute;bottom:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,transparent 5%,var(--or) 35%,var(--ory) 65%,transparent 95%);
 }
-
 .hero-inner{
   position:relative;z-index:2;
   display:flex;flex-direction:column;align-items:center;text-align:center;
   padding:0 clamp(16px,5vw,48px);max-width:820px;
 }
-
-/* ── PARTICLES ─────────────────────── */
 #particles{position:absolute;inset:0;z-index:1;pointer-events:none}
-
-/* ── FLOATING SHAPES ───────────────── */
 .hero-shapes{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .shape{
   position:absolute;border-radius:50%;
@@ -226,27 +187,11 @@ body{
   from{transform:translate(0,0) rotate(0deg) scale(1)}
   to  {transform:translate(20px,30px) rotate(15deg) scale(1.08)}
 }
-
-/* ── HERO STAT DIVIDERS ─────────────── */
-.stat-divider{width:1px;height:40px;background:rgba(255,255,255,.18);align-self:center}
-
-/* ── CARD TILT ──────────────────────── */
-.tiltable{transform-style:preserve-3d;transition:transform .1s ease}
-.tiltable .tilt-shine{
-  position:absolute;inset:0;border-radius:inherit;
-  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.12) 0%, transparent 60%);
-  opacity:0;transition:opacity .3s;pointer-events:none;z-index:1;
-}
-.tiltable:hover .tilt-shine{opacity:1}
-
-/* ── SCROLL PROGRESS BAR ────────────── */
 #progress-bar{
   position:fixed;top:0;left:0;height:3px;width:0%;
   background:linear-gradient(90deg,var(--or),var(--ory));
   z-index:2000;transition:width .1s linear;
 }
-
-/* ── FLOATING CTA ───────────────────── */
 .float-cta{
   position:fixed;bottom:28px;right:28px;z-index:900;
   width:54px;height:54px;background:var(--or);
@@ -264,93 +209,17 @@ body{
   animation:ringPulse 2s ease-in-out infinite;
 }
 @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.18);opacity:0}}
-
-/* ── NUMBER TICK ANIMATION ──────────── */
-@keyframes tickUp{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
-.stat-n.counting{animation:tickUp .25s ease both}
-
-/* ── STAGGER CHILDREN ───────────────── */
-.stagger > *{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
-.stagger.vis > *:nth-child(1){opacity:1;transform:none;transition-delay:.0s}
-.stagger.vis > *:nth-child(2){opacity:1;transform:none;transition-delay:.09s}
-.stagger.vis > *:nth-child(3){opacity:1;transform:none;transition-delay:.18s}
-.stagger.vis > *:nth-child(4){opacity:1;transform:none;transition-delay:.27s}
-.stagger.vis > *:nth-child(5){opacity:1;transform:none;transition-delay:.36s}
-.stagger.vis > *:nth-child(6){opacity:1;transform:none;transition-delay:.45s}
-
-/* ── UNDERLINE HOVER LINKS ──────────── */
-.nav-links a{position:relative}
-.nav-links a::after{
-  content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;
-  background:var(--or);border-radius:2px;
-  transform:scaleX(0);transform-origin:left;
-  transition:transform .22s ease;
-}
-.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
-
-/* ── OFFER CARD SHINE ───────────────── */
-.offer-card{overflow:hidden;position:relative}
-.offer-card::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);
-  transform:translateX(-100%);z-index:2;pointer-events:none;
-  transition:transform .55s ease;
-}
-.offer-card:hover::before{transform:translateX(100%)}
-
-/* ── FEATURE ICON BOUNCE ────────────── */
-.feat-card:hover .feat-icon{animation:iconBounce .4s ease}
-@keyframes iconBounce{0%,100%{transform:scale(1)}40%{transform:scale(1.2)}70%{transform:scale(.9)}}
-
-/* ── STEP NUMBER PULSE ──────────────── */
-.step:hover .step-n{animation:stepPop .35s ease}
-@keyframes stepPop{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
-
-/* ── TESTI CARD GLOW BORDER ─────────── */
-.testi-card{position:relative}
-.testi-card::after{
-  content:'';position:absolute;inset:-1px;border-radius:inherit;
-  background:linear-gradient(135deg,var(--or),var(--ory));
-  z-index:-1;opacity:0;transition:opacity .3s;
-}
-.testi-card:hover::after{opacity:1}
-
-/* ── CATEGORY CARD SCALE LABEL ──────── */
-.cat-name{transition:transform .3s,color .3s}
-.cat-card:hover .cat-name{color:var(--ory);transform:translateX(4px)}
-
-/* badge pill — removed */
-
-.hero-h1{
-  color:#fff;margin-bottom:6px;
-  animation:fadeup .75s .12s both;opacity:0;
-}
-.hero-h1 mark{
-  background:none;color:var(--ory);
-  position:relative;display:inline;
-}
-
+.hero-h1{color:#fff;margin-bottom:6px;animation:fadeup .75s .12s both;opacity:0;}
+.hero-h1 mark{background:none;color:var(--ory);position:relative;display:inline;}
 .hero-sub2{
   font-size:clamp(1.1rem,3vw,1.65rem);font-weight:400;
   color:rgba(255,255,255,.65);letter-spacing:-.01em;
-  margin-bottom:.9em;
-  animation:fadeup .75s .2s both;opacity:0;
+  margin-bottom:.9em;animation:fadeup .75s .2s both;opacity:0;
 }
-
-.hero-body{
-  max-width:460px;
-  animation:fadeup .75s .28s both;opacity:0;
-}
+.hero-body{max-width:460px;animation:fadeup .75s .28s both;opacity:0;}
 .hero-body p{font-size:clamp(.85rem,1.5vw,.95rem);color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:2em}
-
-.hero-btns{
-  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
-  animation:fadeup .75s .36s both;opacity:0;
-}
-
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeup .75s .36s both;opacity:0;}
 @keyframes fadeup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-
-/* CTA buttons */
 .btn-fill{
   display:inline-flex;align-items:center;gap:10px;
   background:var(--or);color:#fff;border:none;
@@ -361,7 +230,6 @@ body{
 }
 .btn-fill:hover{background:var(--or2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(249,79,30,.5)}
 .btn-fill svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.5}
-
 .btn-ghost{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(255,255,255,.1);
@@ -371,13 +239,10 @@ body{
 }
 .btn-ghost:hover{background:rgba(255,255,255,.17);border-color:rgba(255,255,255,.45)}
 .btn-ghost svg{width:16px;height:16px}
-
-/* hero stats bar */
 .hero-stats{
   position:absolute;bottom:clamp(18px,4vh,52px);left:0;right:0;
   display:flex;justify-content:center;gap:clamp(24px,6vw,96px);
-  z-index:2;
-  animation:fadeup .8s .5s both;opacity:0;
+  z-index:2;animation:fadeup .8s .5s both;opacity:0;
 }
 .stat{text-align:center}
 .stat-n{
@@ -387,34 +252,27 @@ body{
 .stat-n em{color:var(--ory);font-style:normal}
 .stat-l{font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(255,255,255,.55);margin-top:4px;line-height:1.4}
 
-/* ════════════════════════════════════════
-   SCROLL REVEAL
-════════════════════════════════════════ */
+/* SCROLL REVEAL */
 .rv{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
 .rv.vis{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
-/* ════════════════════════════════════════
-   SECTION WRAPPER
-════════════════════════════════════════ */
+/* SECTION */
 .sec{padding:clamp(40px,7vh,80px) var(--px)}
 .sec-alt{background:var(--wh2)}
 .sec-dk {background:var(--dk)}
-
 .sec-hdr{
   display:flex;align-items:flex-start;justify-content:space-between;
   flex-wrap:wrap;gap:14px;margin-bottom:28px;
 }
 .sec-hdr-left{display:flex;flex-direction:column;gap:4px}
 .sec-sub-txt{font-size:.82rem;color:var(--mu);margin-top:4px}
-
 .btn-seeall{
   display:flex;align-items:center;gap:8px;
   background:var(--dk);color:#fff;
   padding:9px 16px;border-radius:8px;
   font-size:.78rem;font-weight:600;border:none;
-  white-space:nowrap;transition:background .15s;flex-shrink:0;
-  align-self:flex-start;
+  white-space:nowrap;transition:background .15s;flex-shrink:0;align-self:flex-start;
 }
 .btn-seeall:hover{background:var(--or)}
 .btn-seeall-ic{
@@ -422,31 +280,16 @@ body{
   border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.6rem;
 }
 
-/* ════════════════════════════════════════
-   CATEGORIES
-════════════════════════════════════════ */
-.cat-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-}
-.cat-card{
-  position:relative;border-radius:var(--rlg);overflow:hidden;
-  aspect-ratio:.75;cursor:pointer;
-}
+/* CATEGORIES */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.cat-card{position:relative;border-radius:var(--rlg);overflow:hidden;aspect-ratio:.75;cursor:pointer;}
 .cat-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .cat-card:hover img{transform:scale(1.06)}
-.cat-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(15,18,22,.88) 0%,rgba(15,18,22,.05) 52%);
-}
-.cat-body{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:16px 14px;
-  display:flex;align-items:flex-end;justify-content:space-between;gap:8px;
-}
+.cat-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,18,22,.88) 0%,rgba(15,18,22,.05) 52%);}
+.cat-body{position:absolute;bottom:0;left:0;right:0;padding:16px 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;}
 .cat-tag{font-size:.65rem;font-weight:600;color:rgba(255,255,255,.55);margin-bottom:3px}
-.cat-name{font-size:.95rem;font-weight:600;color:#fff;letter-spacing:-.01em}
+.cat-name{font-size:.95rem;font-weight:600;color:#fff;letter-spacing:-.01em;transition:transform .3s,color .3s}
+.cat-card:hover .cat-name{color:var(--ory);transform:translateX(4px)}
 .cat-arr{
   width:28px;height:28px;flex-shrink:0;
   background:rgba(255,255,255,.15);backdrop-filter:blur(8px);
@@ -456,32 +299,30 @@ body{
 }
 .cat-card:hover .cat-arr{background:var(--or);border-color:var(--or)}
 
-/* ════════════════════════════════════════
-   OFFER CARDS
-════════════════════════════════════════ */
+/* OFFER */
 .offer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .offer-card{
   background:#fff;border-radius:var(--rlg);overflow:hidden;
   box-shadow:var(--sh);border:1px solid var(--wh3);
-  transition:transform .25s,box-shadow .25s;
+  transition:transform .25s,box-shadow .25s;position:relative;
 }
 .offer-card:hover{transform:translateY(-4px);box-shadow:var(--shl)}
+.offer-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);
+  transform:translateX(-100%);z-index:2;pointer-events:none;transition:transform .55s ease;
+}
+.offer-card:hover::before{transform:translateX(100%)}
 .offer-img-w{position:relative;height:190px;overflow:hidden}
 .offer-img-w img{width:100%;height:100%;object-fit:cover;transition:transform .45s}
 .offer-card:hover .offer-img-w img{transform:scale(1.05)}
-.offer-bk{
-  position:absolute;top:10px;left:10px;
-  color:#fff;font-size:.65rem;font-weight:700;
-  padding:3px 9px;border-radius:5px;
-  background:var(--or);
-}
+.offer-bk{position:absolute;top:10px;left:10px;color:#fff;font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:5px;background:var(--or);}
 .offer-bk.g{background:var(--grn)}.offer-bk.b{background:var(--blu)}
 .offer-eta{
   position:absolute;top:10px;right:10px;
   display:flex;align-items:center;gap:4px;
   background:rgba(15,18,22,.72);backdrop-filter:blur(8px);
-  border-radius:6px;padding:4px 8px;color:#fff;
-  font-size:.65rem;font-weight:600;
+  border-radius:6px;padding:4px 8px;color:#fff;font-size:.65rem;font-weight:600;
 }
 .offer-eta svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2}
 .offer-body{padding:14px 16px 18px}
@@ -490,49 +331,28 @@ body{
 .offer-mi{display:flex;align-items:center;gap:3px;font-size:.7rem;color:var(--mu)}
 .offer-mi svg{width:10px;height:10px;stroke:var(--mu);fill:none;stroke-width:2}
 .offer-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:13px}
-.offer-tag{
-  font-size:.67rem;font-weight:600;
-  color:var(--or);background:var(--or-lt);
-  padding:3px 7px;border-radius:4px;
-}
+.offer-tag{font-size:.67rem;font-weight:600;color:var(--or);background:var(--or-lt);padding:3px 7px;border-radius:4px;}
 .offer-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .offer-old{font-size:.7rem;color:var(--mu2);text-decoration:line-through}
 .offer-now{font-size:1rem;font-weight:700;letter-spacing:-.02em}
 .offer-sub{font-size:.67rem;color:var(--mu)}
-.btn-cmd{
-  background:var(--or);color:#fff;
-  padding:8px 16px;border-radius:6px;
-  font-size:.76rem;font-weight:600;border:none;
-  white-space:nowrap;transition:background .15s;
-}
+.btn-cmd{background:var(--or);color:#fff;padding:8px 16px;border-radius:6px;font-size:.76rem;font-weight:600;border:none;white-space:nowrap;transition:background .15s;}
 .btn-cmd:hover{background:var(--or2)}
 
-/* ════════════════════════════════════════
-   HOW IT WORKS
-════════════════════════════════════════ */
-.hiw-wrap{
-  display:grid;grid-template-columns:1fr 1fr;
-  border-radius:var(--rlg);overflow:hidden;box-shadow:var(--shm);
-}
+/* HOW IT WORKS */
+.hiw-wrap{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--rlg);overflow:hidden;box-shadow:var(--shm);}
 .hiw-vis{position:relative;min-height:340px;overflow:hidden}
 .hiw-vis img{width:100%;height:100%;object-fit:cover}
-.hiw-vis-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(249,79,30,.22),rgba(15,18,22,.55));
-}
+.hiw-vis-ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(249,79,30,.22),rgba(15,18,22,.55));}
 .hiw-play{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:58px;height:58px;background:var(--or);border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   color:#fff;font-size:1rem;cursor:pointer;
-  box-shadow:0 0 0 10px rgba(249,79,30,.18);
-  transition:transform .2s,box-shadow .2s;
+  box-shadow:0 0 0 10px rgba(249,79,30,.18);transition:transform .2s,box-shadow .2s;
 }
 .hiw-play:hover{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 16px rgba(249,79,30,.12)}
-.hiw-txt{
-  background:var(--dk2);padding:clamp(28px,5vw,44px) clamp(24px,4vw,40px);
-  display:flex;flex-direction:column;justify-content:center;
-}
+.hiw-txt{background:var(--dk2);padding:clamp(28px,5vw,44px) clamp(24px,4vw,40px);display:flex;flex-direction:column;justify-content:center;}
 .hiw-h2{color:#fff;margin-bottom:24px}
 .hiw-steps{display:flex;flex-direction:column;gap:18px}
 .step{display:flex;gap:12px;align-items:flex-start}
@@ -541,12 +361,14 @@ body{
   display:flex;align-items:center;justify-content:center;
   font-size:.82rem;font-weight:700;color:#fff;flex-shrink:0;
 }
+.step:hover .step-n{animation:stepPop .35s ease}
+@keyframes stepPop{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 .step-body h4{font-size:.88rem;font-weight:600;color:#fff;margin-bottom:3px;letter-spacing:-.01em}
 .step-body p{font-size:.78rem;color:rgba(255,255,255,.48);line-height:1.6}
 
-/* ════════════════════════════════════════
-   FEATURES
-════════════════════════════════════════ */
+/* ══════════════════════════════════
+   FEATURES — FONT AWESOME ICONS
+══════════════════════════════════ */
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .feat-card{
   background:#fff;border-radius:var(--rlg);
@@ -555,27 +377,56 @@ body{
   transition:transform .25s,box-shadow .25s,border-color .25s;
 }
 .feat-card:hover{transform:translateY(-3px);box-shadow:var(--shm);border-color:var(--wh)}
+
+/* Icône wrapper */
 .feat-icon{
-  width:48px;height:48px;border-radius:10px;
+  width:52px;height:52px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:14px;font-size:1.35rem;
+  margin-bottom:14px;
+  /* on retire font-size emoji, on gère via fa */
 }
-.fi-or{background:var(--or-lt)}
-.fi-grn{background:#DCFCE7}
-.fi-ylw{background:#FEF3C7}
+.feat-icon i {
+  font-size: 1.35rem;
+}
+
+/* Couleurs de fond */
+.fi-or  { background: var(--or-lt); }
+.fi-or  i { color: var(--or); }
+
+.fi-grn { background: #DCFCE7; }
+.fi-grn i { color: var(--grn); }
+
+.fi-ylw { background: #FEF3C7; }
+.fi-ylw i { color: var(--ylw); }
+
+.fi-blu { background: #DBEAFE; }
+.fi-blu i { color: var(--blu); }
+
+/* Bounce animation au hover */
+.feat-card:hover .feat-icon { animation: iconBounce .4s ease; }
+@keyframes iconBounce {
+  0%,100% { transform:scale(1); }
+  40%      { transform:scale(1.22); }
+  70%      { transform:scale(.9); }
+}
+
 .feat-card h4{font-size:.9rem;font-weight:600;margin-bottom:6px;letter-spacing:-.01em}
 .feat-card p{font-size:.78rem;color:var(--mu);line-height:1.65}
 
-/* ════════════════════════════════════════
-   TESTIMONIALS
-════════════════════════════════════════ */
+/* TESTIMONIALS */
 .testi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .testi-card{
   background:var(--dk3);border-radius:var(--rlg);
   padding:18px 16px;border:1px solid var(--dk4);
-  transition:transform .25s,border-color .25s;
+  transition:transform .25s,border-color .25s;position:relative;
+}
+.testi-card::after{
+  content:'';position:absolute;inset:-1px;border-radius:inherit;
+  background:linear-gradient(135deg,var(--or),var(--ory));
+  z-index:-1;opacity:0;transition:opacity .3s;
 }
 .testi-card:hover{transform:translateY(-3px);border-color:var(--or)}
+.testi-card:hover::after{opacity:1}
 .testi-stars{color:var(--ylw);font-size:.78rem;margin-bottom:10px}
 .testi-q{font-size:.78rem;color:rgba(255,255,255,.52);line-height:1.7;font-style:italic;margin-bottom:14px}
 .testi-who{display:flex;align-items:center;gap:9px}
@@ -583,35 +434,25 @@ body{
 .testi-nm{font-size:.76rem;font-weight:600;color:#fff}
 .testi-pl{font-size:.65rem;color:rgba(255,255,255,.38)}
 
-/* ════════════════════════════════════════
-   MAP
-════════════════════════════════════════ */
+/* MAP */
 .map-box{
   background:var(--dk2);border-radius:var(--rlg);
-  height:clamp(200px,26vw,300px);
-  position:relative;overflow:hidden;
-  border:1px solid var(--dk3);
+  height:clamp(200px,26vw,300px);position:relative;overflow:hidden;border:1px solid var(--dk3);
 }
 .map-box img{width:100%;height:100%;object-fit:cover;opacity:.28;filter:saturate(.2)}
 .mp{
   position:absolute;width:12px;height:12px;
-  background:var(--or);border-radius:50% 50% 50% 0;
-  transform:rotate(-45deg);
-  box-shadow:0 2px 10px rgba(249,79,30,.55);
-  cursor:pointer;transition:transform .2s;
+  background:var(--or);border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+  box-shadow:0 2px 10px rgba(249,79,30,.55);cursor:pointer;transition:transform .2s;
 }
 .mp:hover{transform:rotate(-45deg) scale(1.35)}
 .mp::after{content:'';position:absolute;inset:3px;background:#fff;border-radius:50%}
 
-/* ════════════════════════════════════════
-   APP DOWNLOAD BANNER
-════════════════════════════════════════ */
+/* APP BAND */
 .app-band{
   background:linear-gradient(130deg,var(--or) 0%,#ff7730 100%);
-  border-radius:var(--rlg);
-  padding:clamp(28px,5vw,52px) clamp(24px,5vw,52px);
-  display:grid;grid-template-columns:1fr auto;
-  gap:28px;align-items:center;
+  border-radius:var(--rlg);padding:clamp(28px,5vw,52px) clamp(24px,5vw,52px);
+  display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;
   position:relative;overflow:hidden;
 }
 .app-band::before{
@@ -632,23 +473,13 @@ body{
 .app-dl-lbl{font-size:.6rem;color:rgba(255,255,255,.65);line-height:1.2}
 .app-dl-name{font-size:.84rem;font-weight:600;line-height:1.2}
 
-/* ════════════════════════════════════════
-   FOOTER
-════════════════════════════════════════ */
+/* FOOTER */
 footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(255,255,255,.55)}
-.ft-top{
-  display:grid;grid-template-columns:1.7fr 1fr 1fr 1.6fr;
-  gap:40px;padding-bottom:40px;
-  border-bottom:1px solid var(--dk3);
-}
+.ft-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1.6fr;gap:40px;padding-bottom:40px;border-bottom:1px solid var(--dk3);}
 .ft-logo-wrap .logo{margin-bottom:14px}
 .ft-brand-p{font-size:.8rem;line-height:1.72;max-width:200px;color:rgba(255,255,255,.4)}
 .ft-social{display:flex;gap:7px;margin-top:18px}
-.ft-soc{
-  width:30px;height:30px;background:rgba(255,255,255,.07);
-  border-radius:6px;display:flex;align-items:center;justify-content:center;
-  font-size:.72rem;cursor:pointer;transition:background .15s;color:#fff;
-}
+.ft-soc{width:30px;height:30px;background:rgba(255,255,255,.07);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.72rem;cursor:pointer;transition:background .15s;color:#fff;}
 .ft-soc:hover{background:var(--or)}
 .ft-col h5{color:rgba(255,255,255,.85);font-size:.8rem;font-weight:600;margin-bottom:14px;letter-spacing:.01em}
 .ft-col ul{display:flex;flex-direction:column;gap:8px}
@@ -664,34 +495,34 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   color:#fff;font-size:.78rem;font-family:inherit;outline:none;
 }
 .nl-row input::placeholder{color:rgba(255,255,255,.26)}
-.nl-row button{
-  background:var(--or);border:none;color:#fff;
-  padding:9px 14px;border-radius:0 7px 7px 0;
-  font-size:.78rem;font-weight:600;cursor:pointer;
-  transition:background .15s;white-space:nowrap;
-}
+.nl-row button{background:var(--or);border:none;color:#fff;padding:9px 14px;border-radius:0 7px 7px 0;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap;}
 .nl-row button:hover{background:var(--or2)}
-.ft-bot{
-  padding:16px 0;
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:8px;
-}
+.ft-bot{padding:16px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
 .ft-copy{font-size:.72rem;color:rgba(255,255,255,.26)}
 .ft-links{display:flex;gap:16px}
 .ft-links a{font-size:.72rem;color:rgba(255,255,255,.3);transition:color .15s}
 .ft-links a:hover{color:rgba(255,255,255,.7)}
-.ft-wordmark{
-  font-size:clamp(3rem,12vw,9.5rem);font-weight:700;
-  letter-spacing:-.04em;color:rgba(255,255,255,.024);
-  text-align:center;line-height:1;user-select:none;
-  margin-top:-12px;padding-bottom:4px;overflow:hidden;
+.ft-wordmark{font-size:clamp(3rem,12vw,9.5rem);font-weight:700;letter-spacing:-.04em;color:rgba(255,255,255,.024);text-align:center;line-height:1;user-select:none;margin-top:-12px;padding-bottom:4px;overflow:hidden;}
+
+/* TILT */
+.tiltable{transform-style:preserve-3d;transition:transform .1s ease}
+.tiltable .tilt-shine{
+  position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.12) 0%, transparent 60%);
+  opacity:0;transition:opacity .3s;pointer-events:none;z-index:1;
 }
+.tiltable:hover .tilt-shine{opacity:1}
 
-/* ════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-════════════════════════════════════════ */
+/* STAGGER */
+.stagger > *{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.stagger.vis > *:nth-child(1){opacity:1;transform:none;transition-delay:.0s}
+.stagger.vis > *:nth-child(2){opacity:1;transform:none;transition-delay:.09s}
+.stagger.vis > *:nth-child(3){opacity:1;transform:none;transition-delay:.18s}
+.stagger.vis > *:nth-child(4){opacity:1;transform:none;transition-delay:.27s}
+.stagger.vis > *:nth-child(5){opacity:1;transform:none;transition-delay:.36s}
+.stagger.vis > *:nth-child(6){opacity:1;transform:none;transition-delay:.45s}
 
-/* Tablet landscape */
+/* RESPONSIVE */
 @media(max-width:1100px){
   .cat-grid    {grid-template-columns:repeat(2,1fr)}
   .offer-grid  {grid-template-columns:repeat(2,1fr)}
@@ -702,17 +533,11 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   .app-band    {grid-template-columns:1fr}
   .app-dl-btns {margin-top:4px}
 }
-
-/* Tablet portrait */
 @media(max-width:768px){
   :root{--px:clamp(16px,5vw,32px)}
-
-  .nav-links,
-  .nav-search,
-  .nav-lang    {display:none}
-  .hbg         {display:flex}
-  .nav-cta     {display:none}  /* show in drawer */
-
+  .nav-links,.nav-search,.nav-lang{display:none}
+  .hbg{display:flex}
+  .nav-cta{display:none}
   .cat-grid    {grid-template-columns:repeat(2,1fr);gap:10px}
   .offer-grid  {grid-template-columns:1fr 1fr}
   .feat-grid   {grid-template-columns:repeat(2,1fr);gap:12px}
@@ -721,8 +546,6 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   .ft-col      {display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .ft-col ul   {gap:6px}
 }
-
-/* Mobile */
 @media(max-width:540px){
   .cat-grid    {grid-template-columns:repeat(2,1fr)}
   .offer-grid  {grid-template-columns:1fr}
@@ -730,23 +553,28 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   .feat-grid   {grid-template-columns:1fr}
   .hero-stats  {gap:18px;bottom:14px}
   .hero-btns   {flex-direction:column;align-items:center}
-  .btn-fill,
-  .btn-ghost   {width:100%;justify-content:center}
-  .ft-col      {grid-template-columns:1fr}
+  .btn-fill,.btn-ghost{width:100%;justify-content:center}
+  .ft-col{grid-template-columns:1fr}
 }
-
-/* Very small */
 @media(max-width:360px){
   .cat-grid{grid-template-columns:1fr}
   .stat-n{font-size:1.5rem}
 }
+
+@keyframes rippleAnim { to { transform:scale(1); opacity:0; } }
+.hero-sub2 { min-height: 1.5em; }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════
-     NAVBAR
-══════════════════════════════════ -->
+<div id="progress-bar"></div>
+
+<button class="float-cta" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <div class="float-cta-ring"></div>
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- NAVBAR -->
 <nav class="navbar" id="nb">
   <a href="#" class="logo">
     <div class="logo-mark">
@@ -757,9 +585,8 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
         <path d="M9.5 6H14l1.5 4.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round" fill="none"/>
       </svg>
     </div>
-    <span class="logo-text">Swift<b>Drop</b></span>
+    <span class="logo-text">Your<b>Drop</b></span>
   </a>
-
   <ul class="nav-links">
     <li><a href="#" class="active">Accueil</a></li>
     <li><a href="#">Catégories</a></li>
@@ -767,7 +594,6 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
     <li><a href="#">Suivi</a></li>
     <li><a href="#">Contact</a></li>
   </ul>
-
   <div class="nav-right">
     <div class="nav-search">
       <input type="text" placeholder="Rechercher...">
@@ -786,7 +612,6 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   </div>
 </nav>
 
-<!-- Mobile drawer -->
 <div class="mdrw" id="mdrw">
   <a href="#">Accueil</a>
   <a href="#">Catégories</a>
@@ -796,18 +621,7 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   <button class="mdrw-cta">Commander maintenant</button>
 </div>
 
-<!-- ══════════════════════════════════
-     HERO
-══════════════════════════════════ -->
-<!-- Scroll progress bar -->
-<div id="progress-bar"></div>
-
-<!-- Floating order CTA -->
-<button class="float-cta" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <div class="float-cta-ring"></div>
-  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-</button>
-
+<!-- HERO -->
 <section class="hero">
   <canvas id="particles"></canvas>
   <div class="hero-shapes">
@@ -818,18 +632,12 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   <div class="hero-bg"></div>
   <div class="hero-ov"></div>
   <div class="hero-streak"></div>
-
   <div class="hero-inner">
-    <h1 class="t-display hero-h1">
-      Livré Chez Vous,<br><mark>Sans Attendre</mark>
-    </h1>
-
+    <h1 class="t-display hero-h1">Livré Chez Vous,<br><mark>Sans Attendre</mark></h1>
     <p class="hero-sub2">En un clic, directement à votre porte</p>
-
     <div class="hero-body">
       <p>Restaurants, épiceries, pharmacies, colis — nous livrons tout ce dont vous avez besoin, rapidement et en toute sécurité, 7j/7 et 24h/24.</p>
     </div>
-
     <div class="hero-btns">
       <button class="btn-fill">
         Commander maintenant
@@ -841,7 +649,6 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
       </button>
     </div>
   </div>
-
   <div class="hero-stats">
     <div class="stat">
       <div class="stat-n" data-val="98" data-suf="%">0%</div>
@@ -858,9 +665,7 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     CATÉGORIES
-══════════════════════════════════ -->
+<!-- CATÉGORIES -->
 <section class="sec">
   <div class="sec-hdr rv">
     <div class="sec-hdr-left">
@@ -905,9 +710,7 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     OFFRES POPULAIRES
-══════════════════════════════════ -->
+<!-- OFFRES -->
 <section class="sec sec-alt">
   <div class="sec-hdr rv">
     <div class="sec-hdr-left">
@@ -916,7 +719,6 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
     </div>
   </div>
   <div class="offer-grid stagger">
-
     <div class="offer-card tiltable">
       <div class="offer-img-w">
         <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=80" alt="Burger" loading="lazy">
@@ -941,7 +743,6 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
         </div>
       </div>
     </div>
-
     <div class="offer-card tiltable">
       <div class="offer-img-w">
         <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=700&q=80" alt="Sushi" loading="lazy">
@@ -966,7 +767,6 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
         </div>
       </div>
     </div>
-
     <div class="offer-card tiltable">
       <div class="offer-img-w">
         <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=700&q=80" alt="Épicerie" loading="lazy">
@@ -991,13 +791,10 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     COMMENT ÇA MARCHE
-══════════════════════════════════ -->
+<!-- COMMENT ÇA MARCHE -->
 <section class="sec">
   <div class="hiw-wrap rv">
     <div class="hiw-vis">
@@ -1035,49 +832,72 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
 </section>
 
 <!-- ══════════════════════════════════
-     POURQUOI SWIFTDROP
+     POURQUOI SWIFTDROP — FONT AWESOME
 ══════════════════════════════════ -->
 <section class="sec sec-alt">
   <div class="sec-hdr rv">
     <h2 class="t-h2">Pourquoi Choisir SwiftDrop</h2>
   </div>
   <div class="feat-grid stagger">
+
+    <!-- Ultra-Rapide : fa-bolt -->
     <div class="feat-card rv">
-      <div class="feat-icon fi-or">⚡</div>
+      <div class="feat-icon fi-or">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
       <h4>Ultra-Rapide</h4>
       <p>Livraison en moins de 30 minutes pour les commandes restaurant, grâce à notre réseau optimisé.</p>
     </div>
+
+    <!-- 100% Sécurisé : fa-shield-halved -->
     <div class="feat-card rv d1">
-      <div class="feat-icon fi-grn">🛡️</div>
+      <div class="feat-icon fi-grn">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
       <h4>100% Sécurisé</h4>
       <p>Vos paiements et données personnelles sont protégés par un chiffrement de niveau bancaire.</p>
     </div>
+
+    <!-- Suivi en Direct : fa-location-dot -->
     <div class="feat-card rv d2">
-      <div class="feat-icon fi-ylw">📍</div>
+      <div class="feat-icon fi-ylw">
+        <i class="fa-solid fa-location-dot"></i>
+      </div>
       <h4>Suivi en Direct</h4>
       <p>Géolocalisation en temps réel de votre livreur. Vous savez exactement où est votre commande.</p>
     </div>
+
+    <!-- Support 24/7 : fa-headset -->
     <div class="feat-card rv">
-      <div class="feat-icon fi-or">💬</div>
+      <div class="feat-icon fi-blu">
+        <i class="fa-solid fa-headset"></i>
+      </div>
       <h4>Support 24/7</h4>
       <p>Notre équipe est disponible à toute heure pour résoudre un problème ou répondre à vos questions.</p>
     </div>
+
+    <!-- Livraison Éco : fa-leaf -->
     <div class="feat-card rv d1">
-      <div class="feat-icon fi-grn">♻️</div>
+      <div class="feat-icon fi-grn">
+        <i class="fa-solid fa-leaf"></i>
+      </div>
       <h4>Livraison Éco</h4>
       <p>Une partie de notre flotte utilise des véhicules électriques pour réduire notre empreinte carbone.</p>
     </div>
+
+    <!-- Meilleur Prix : fa-tag -->
     <div class="feat-card rv d2">
-      <div class="feat-icon fi-ylw">🏆</div>
+      <div class="feat-icon fi-ylw">
+        <i class="fa-solid fa-tag"></i>
+      </div>
       <h4>Meilleur Prix</h4>
       <p>Des frais de livraison parmi les plus bas du marché, avec des offres gratuites régulières.</p>
     </div>
+
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     TÉMOIGNAGES
-══════════════════════════════════ -->
+<!-- TÉMOIGNAGES -->
 <section class="sec sec-dk">
   <div class="sec-hdr rv">
     <div class="sec-hdr-left">
@@ -1120,29 +940,210 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     ZONES DE LIVRAISON
-══════════════════════════════════ -->
+<!-- ZONES -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+/* ── MAP LEAFLET ── */
+.map-section-inner { display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start; }
+#delivery-map {
+  height: clamp(280px, 38vw, 420px);
+  border-radius: var(--rlg);
+  border: 1px solid var(--dk3);
+  z-index: 0;
+}
+/* Leaflet dark tiles override */
+.leaflet-tile-pane { filter: brightness(.85) saturate(.7); }
+
+/* City list */
+.zone-list {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.zone-item {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; border: 1px solid var(--wh3);
+  border-radius: 10px; padding: 12px 14px;
+  cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.zone-item:hover { border-color: var(--or); box-shadow: 0 4px 16px rgba(249,79,30,.12); transform: translateX(3px); }
+.zone-item.active { border-color: var(--or); background: var(--or-lt); }
+.zone-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  background: var(--or); box-shadow: 0 0 0 3px rgba(249,79,30,.18);
+}
+.zone-dot.active { background: var(--grn); box-shadow: 0 0 0 3px rgba(22,163,74,.18); }
+.zone-info { flex: 1; }
+.zone-name { font-size: .85rem; font-weight: 600; color: var(--txt); }
+.zone-sub  { font-size: .72rem; color: var(--mu); margin-top: 1px; }
+.zone-badge {
+  font-size: .62rem; font-weight: 700; padding: 2px 7px; border-radius: 4px;
+  background: var(--or-lt); color: var(--or);
+}
+.zone-badge.soon { background: #FEF3C7; color: var(--ylw); }
+
+@media(max-width: 860px) {
+  .map-section-inner { grid-template-columns: 1fr; }
+  .zone-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+@media(max-width: 480px) {
+  .zone-list { grid-template-columns: 1fr; }
+}
+</style>
+
 <section class="sec sec-alt">
-  <div class="sec-hdr rv"><h2 class="t-h2">Zones de Livraison</h2></div>
-  <div class="map-box rv">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1200px-World_map_-_low_resolution.svg.png" alt="Carte des zones de livraison">
-    <div class="mp" style="top:48%;left:49%"></div>
-    <div class="mp" style="top:51%;left:51%"></div>
-    <div class="mp" style="top:46%;left:50%"></div>
-    <div class="mp" style="top:53%;left:48%"></div>
-    <div class="mp" style="top:44%;left:52%"></div>
-    <div class="mp" style="top:50%;left:47%"></div>
+  <div class="sec-hdr rv">
+    <div class="sec-hdr-left">
+      <h2 class="t-h2">Zones de Livraison</h2>
+      <span class="sec-sub-txt">Nous couvrons les principales villes du Cameroun</span>
+    </div>
+  </div>
+
+  <div class="map-section-inner rv">
+    <!-- Carte Leaflet -->
+    <div id="delivery-map"></div>
+
+    <!-- Liste des villes -->
+    <div class="zone-list">
+      <div class="zone-item active" data-lat="3.848" data-lng="11.502" data-city="Yaoundé">
+        <div class="zone-dot active"></div>
+        <div class="zone-info">
+          <div class="zone-name">Yaoundé</div>
+          <div class="zone-sub">Capitale · Livraison 24h/24</div>
+        </div>
+        <span class="zone-badge">Actif</span>
+      </div>
+      <div class="zone-item" data-lat="4.061" data-lng="9.774" data-city="Douala">
+        <div class="zone-dot active"></div>
+        <div class="zone-info">
+          <div class="zone-name">Douala</div>
+          <div class="zone-sub">Capitale éco. · 500+ partenaires</div>
+        </div>
+        <span class="zone-badge">Actif</span>
+      </div>
+      <div class="zone-item" data-lat="5.479" data-lng="10.417" data-city="Bafoussam">
+        <div class="zone-dot active"></div>
+        <div class="zone-info">
+          <div class="zone-name">Bafoussam</div>
+          <div class="zone-sub">Région Ouest · 120+ partenaires</div>
+        </div>
+        <span class="zone-badge">Actif</span>
+      </div>
+      <div class="zone-item" data-lat="4.150" data-lng="13.179" data-city="Bertoua">
+        <div class="zone-dot"></div>
+        <div class="zone-info">
+          <div class="zone-name">Bertoua</div>
+          <div class="zone-sub">Région Est</div>
+        </div>
+        <span class="zone-badge soon">Bientôt</span>
+      </div>
+      <div class="zone-item" data-lat="6.366" data-lng="14.657" data-city="Ngaoundéré">
+        <div class="zone-dot"></div>
+        <div class="zone-info">
+          <div class="zone-name">Ngaoundéré</div>
+          <div class="zone-sub">Adamaoua</div>
+        </div>
+        <span class="zone-badge soon">Bientôt</span>
+      </div>
+      <div class="zone-item" data-lat="4.165" data-lng="9.240" data-city="Limbe">
+        <div class="zone-dot active"></div>
+        <div class="zone-info">
+          <div class="zone-name">Limbé</div>
+          <div class="zone-sub">Sud-Ouest · 45+ partenaires</div>
+        </div>
+        <span class="zone-badge">Actif</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     DOWNLOAD BANNER
-══════════════════════════════════ -->
+<script>
+/* ── LEAFLET MAP INIT ── */
+(function initMap() {
+  const map = L.map('delivery-map', {
+    center: [4.8, 11.0],
+    zoom: 6,
+    zoomControl: true,
+    scrollWheelZoom: false,
+    attributionControl: false
+  });
+
+  /* Tiles OpenStreetMap style sombre via CartoDB */
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19
+  }).addTo(map);
+
+  /* Icône personnalisée SwiftDrop */
+  function makeIcon(color) {
+    return L.divIcon({
+      className: '',
+      html: `<div style="
+        width:14px;height:14px;border-radius:50%;
+        background:${color};
+        border:2px solid #fff;
+        box-shadow:0 0 0 4px ${color}44, 0 2px 10px rgba(0,0,0,.4);
+      "></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+      popupAnchor: [0, -10]
+    });
+  }
+
+  const activeIcon = makeIcon('#F94F1E');
+  const soonIcon   = makeIcon('#D97706');
+
+  const cities = [
+    { lat: 3.848,  lng: 11.502, name: 'Yaoundé',     sub: 'Livraison 24h/24',         active: true  },
+    { lat: 4.061,  lng: 9.774,  name: 'Douala',      sub: '500+ partenaires actifs',   active: true  },
+    { lat: 5.479,  lng: 10.417, name: 'Bafoussam',   sub: '120+ partenaires actifs',   active: true  },
+    { lat: 4.150,  lng: 13.179, name: 'Bertoua',     sub: 'Disponible bientôt',        active: false },
+    { lat: 6.366,  lng: 14.657, name: 'Ngaoundéré',  sub: 'Disponible bientôt',        active: false },
+    { lat: 4.165,  lng: 9.240,  name: 'Limbé',       sub: '45+ partenaires actifs',    active: true  },
+  ];
+
+  const markers = {};
+
+  cities.forEach(c => {
+    const icon = c.active ? activeIcon : soonIcon;
+    const badge = c.active
+      ? `<span style="background:#FFF0EB;color:#F94F1E;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:4px;">Actif</span>`
+      : `<span style="background:#FEF3C7;color:#D97706;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:4px;">Bientôt</span>`;
+
+    const popup = L.popup({ offset: [0, -6], className: 'sd-popup' }).setContent(`
+      <div style="font-family:'DM Sans',sans-serif;padding:4px 2px;min-width:140px">
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:4px;color:#18202C">${c.name}</div>
+        <div style="font-size:.75rem;color:#687080;margin-bottom:6px">${c.sub}</div>
+        ${badge}
+      </div>
+    `);
+
+    const m = L.marker([c.lat, c.lng], { icon }).addTo(map).bindPopup(popup);
+    markers[c.name] = m;
+  });
+
+  /* Sync avec la liste des villes */
+  document.querySelectorAll('.zone-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.zone-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      const city = item.dataset.city;
+      const lat  = parseFloat(item.dataset.lat);
+      const lng  = parseFloat(item.dataset.lng);
+      map.flyTo([lat, lng], 10, { duration: 1.2 });
+      if (markers[city]) markers[city].openPopup();
+    });
+  });
+
+  /* Ouvrir Yaoundé par défaut */
+  setTimeout(() => { if (markers['Yaoundé']) markers['Yaoundé'].openPopup(); }, 800);
+})();
+</script>
+
+<!-- DOWNLOAD -->
 <section class="sec">
   <div class="app-band rv">
     <div class="app-band-txt">
-      <h2>Téléchargez SwiftDrop<br>Commandez en 60 secondes</h2>
+      <h2>Téléchargez YourDrop<br>Commandez en 60 secondes</h2>
       <p>Disponible sur iOS et Android. Inscription gratuite, première livraison offerte. Rejoignez plus de 50 000 utilisateurs satisfaits.</p>
     </div>
     <div class="app-dl-btns">
@@ -1158,9 +1159,7 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     FOOTER
-══════════════════════════════════ -->
+<!-- FOOTER -->
 <footer>
   <div class="ft-top">
     <div class="ft-logo-wrap">
@@ -1173,9 +1172,9 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
             <path d="M9.5 6H14l1.5 4.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round" fill="none"/>
           </svg>
         </div>
-        <span class="logo-text">Swift<b>Drop</b></span>
+        <span class="logo-text">Your<b>Drop</b></span>
       </a>
-      <p class="ft-brand-p">SwiftDrop connecte vos envies à votre porte. Rapide, fiable, accessible.</p>
+      <p class="ft-brand-p">YourDrop connecte vos envies à votre porte. Rapide, fiable, accessible.</p>
       <div class="ft-social">
         <div class="ft-soc">f</div><div class="ft-soc">𝕏</div>
         <div class="ft-soc">in</div><div class="ft-soc">▶</div><div class="ft-soc">📸</div>
@@ -1207,115 +1206,73 @@ footer{background:var(--dk);padding:clamp(40px,6vh,64px) var(--px) 0;color:rgba(
     </div>
   </div>
   <div class="ft-bot">
-    <span class="ft-copy">© 2024 SwiftDrop — Tous droits réservés</span>
+    <span class="ft-copy">© 2024 YourDrop — Tous droits réservés</span>
     <div class="ft-links">
       <a href="#">Confidentialité</a>
       <a href="#">Conditions</a>
       <a href="#">Cookies</a>
     </div>
   </div>
-  <div class="ft-wordmark">SWIFTDROP</div>
+  <div class="ft-wordmark">YOURDROP</div>
 </footer>
 
-<!-- ══════════════════════════════════
-     SCRIPTS
-══════════════════════════════════ -->
 <script>
-/* ════════════════════════════════════
-   1. NAVBAR SCROLL + PROGRESS BAR
-════════════════════════════════════ */
 const nb = document.getElementById('nb');
 const progressBar = document.getElementById('progress-bar');
-
 window.addEventListener('scroll', () => {
   nb.classList.toggle('scrolled', scrollY > 56);
-  // progress bar
   const total = document.documentElement.scrollHeight - innerHeight;
   progressBar.style.width = (scrollY / total * 100) + '%';
 }, {passive:true});
 
-/* ════════════════════════════════════
-   2. MOBILE MENU
-════════════════════════════════════ */
 function toggleMenu(btn) {
   btn.classList.toggle('open');
   document.getElementById('mdrw').classList.toggle('open');
 }
 
-/* ════════════════════════════════════
-   3. CANVAS PARTICLE SYSTEM
-════════════════════════════════════ */
 (function initParticles() {
   const canvas = document.getElementById('particles');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, particles = [];
-
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-  }
+  function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
   resize();
   window.addEventListener('resize', resize, {passive:true});
-
   const COLORS = ['rgba(249,79,30,', 'rgba(255,128,64,', 'rgba(255,200,150,'];
-
   function Particle() {
     this.reset = function() {
-      this.x  = Math.random() * W;
-      this.y  = Math.random() * H;
-      this.r  = Math.random() * 2 + .5;
-      this.vx = (Math.random() - .5) * .35;
-      this.vy = (Math.random() - .5) * .35;
+      this.x = Math.random() * W; this.y = Math.random() * H;
+      this.r = Math.random() * 2 + .5;
+      this.vx = (Math.random() - .5) * .35; this.vy = (Math.random() - .5) * .35;
       this.alpha = Math.random() * .45 + .08;
       this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-    };
-    this.reset();
+    }; this.reset();
   }
-
   for (let i = 0; i < 65; i++) particles.push(new Particle());
-
-  // mouse parallax
   let mx = W/2, my = H/2;
   canvas.closest('.hero').addEventListener('mousemove', e => {
-    const r = canvas.getBoundingClientRect();
-    mx = e.clientX - r.left;
-    my = e.clientY - r.top;
+    const r = canvas.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top;
   }, {passive:true});
-
   function draw() {
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => {
-      // subtle drift toward cursor
       const dx = mx - p.x, dy = my - p.y;
-      p.vx += dx * 0.000015;
-      p.vy += dy * 0.000015;
+      p.vx += dx * 0.000015; p.vy += dy * 0.000015;
       p.vx *= 0.99; p.vy *= 0.99;
       p.x += p.vx; p.y += p.vy;
-
-      // wrap edges
       if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
       if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-      ctx.fillStyle = p.color + p.alpha + ')';
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.color + p.alpha + ')'; ctx.fill();
     });
-
-    // draw lines between nearby particles
     for (let i = 0; i < particles.length; i++) {
       for (let j = i+1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
+        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx*dx + dy*dy);
         if (dist < 90) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
           ctx.strokeStyle = 'rgba(249,79,30,' + (.06 * (1 - dist/90)) + ')';
-          ctx.lineWidth = .6;
-          ctx.stroke();
+          ctx.lineWidth = .6; ctx.stroke();
         }
       }
     }
@@ -1324,151 +1281,61 @@ function toggleMenu(btn) {
   draw();
 })();
 
-/* ════════════════════════════════════
-   4. SCROLL REVEAL (rv + stagger)
-════════════════════════════════════ */
 const ro = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('vis');
-      ro.unobserve(e.target);
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); ro.unobserve(e.target); } });
 }, { threshold: 0.08 });
-
 document.querySelectorAll('.rv, .stagger').forEach(el => ro.observe(el));
 
-/* ════════════════════════════════════
-   5. ANIMATED COUNTERS
-════════════════════════════════════ */
 function easeOutCubic(t) { return 1 - Math.pow(1-t, 3); }
-
 function runCount(el) {
-  const target = +el.dataset.val;
-  const suf    = el.dataset.suf;
-  const dur    = 1800;
-  const start  = performance.now();
+  const target = +el.dataset.val, suf = el.dataset.suf, dur = 1800, start = performance.now();
   function tick(now) {
     const t = Math.min((now - start) / dur, 1);
     el.textContent = Math.floor(easeOutCubic(t) * target) + suf;
-    if (t < 1) requestAnimationFrame(tick);
-    else el.textContent = target + suf;
+    if (t < 1) requestAnimationFrame(tick); else el.textContent = target + suf;
   }
   requestAnimationFrame(tick);
 }
-
 const counterObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.querySelectorAll('.stat-n[data-val]').forEach(runCount);
-      counterObs.disconnect();
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { document.querySelectorAll('.stat-n[data-val]').forEach(runCount); counterObs.disconnect(); } });
 }, { threshold: 0.5 });
 const hs = document.querySelector('.hero-stats');
 if (hs) counterObs.observe(hs);
 
-/* ════════════════════════════════════
-   6. 3D CARD TILT
-════════════════════════════════════ */
 document.querySelectorAll('.tiltable').forEach(card => {
-  const shine = document.createElement('div');
-  shine.className = 'tilt-shine';
-  card.appendChild(shine);
-
+  const shine = document.createElement('div'); shine.className = 'tilt-shine'; card.appendChild(shine);
   card.addEventListener('mousemove', e => {
-    const r  = card.getBoundingClientRect();
-    const x  = (e.clientX - r.left) / r.width  - .5;  // -0.5 to 0.5
-    const y  = (e.clientY - r.top)  / r.height - .5;
-    const rx = y * -10;  // degrees
-    const ry = x *  10;
-    card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.025)`;
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    card.style.transform = `perspective(600px) rotateX(${y * -10}deg) rotateY(${x * 10}deg) scale(1.025)`;
     shine.style.background = `radial-gradient(circle at ${(x+.5)*100}% ${(y+.5)*100}%, rgba(255,255,255,.14) 0%, transparent 65%)`;
     shine.style.opacity = '1';
   });
-
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-    shine.style.opacity = '0';
-  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; shine.style.opacity = '0'; });
 });
 
-/* ════════════════════════════════════
-   7. HERO TEXT TYPEWRITER EFFECT
-════════════════════════════════════ */
 (function typewriter() {
-  const sub = document.querySelector('.hero-sub2');
-  if (!sub) return;
-  const text = sub.textContent.trim();
-  sub.textContent = '';
-  sub.style.borderRight = '2px solid rgba(255,128,64,.7)';
-  sub.style.display = 'inline-block';
+  const sub = document.querySelector('.hero-sub2'); if (!sub) return;
+  const text = sub.textContent.trim(); sub.textContent = '';
+  sub.style.borderRight = '2px solid rgba(255,128,64,.7)'; sub.style.display = 'inline-block';
   let i = 0;
-  const delay = 600; // start after hero fade
   setTimeout(() => {
     const iv = setInterval(() => {
       sub.textContent = text.slice(0, ++i);
-      if (i >= text.length) {
-        clearInterval(iv);
-        setTimeout(() => sub.style.borderRight = 'none', 900);
-      }
+      if (i >= text.length) { clearInterval(iv); setTimeout(() => sub.style.borderRight = 'none', 900); }
     }, 36);
-  }, delay);
+  }, 600);
 })();
 
-/* ════════════════════════════════════
-   8. SMOOTH BUTTON RIPPLE
-════════════════════════════════════ */
-document.querySelectorAll('.btn-fill, .btn-cmd, .btn-order, .btn-seeall, .nav-cta').forEach(btn => {
-  btn.style.position = 'relative';
-  btn.style.overflow = 'hidden';
+document.querySelectorAll('.btn-fill, .btn-cmd, .btn-seeall, .nav-cta').forEach(btn => {
+  btn.style.position = 'relative'; btn.style.overflow = 'hidden';
   btn.addEventListener('click', function(e) {
-    const r = this.getBoundingClientRect();
-    const ripple = document.createElement('span');
+    const r = this.getBoundingClientRect(), ripple = document.createElement('span');
     const size = Math.max(r.width, r.height) * 2;
-    ripple.style.cssText = `
-      position:absolute;
-      width:${size}px;height:${size}px;
-      border-radius:50%;
-      background:rgba(255,255,255,.25);
-      top:${e.clientY - r.top - size/2}px;
-      left:${e.clientX - r.left - size/2}px;
-      transform:scale(0);
-      animation:rippleAnim .55s ease-out forwards;
-      pointer-events:none;
-    `;
-    this.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
+    ripple.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,.25);top:${e.clientY-r.top-size/2}px;left:${e.clientX-r.left-size/2}px;transform:scale(0);animation:rippleAnim .55s ease-out forwards;pointer-events:none;`;
+    this.appendChild(ripple); setTimeout(() => ripple.remove(), 600);
   });
 });
-
-/* ════════════════════════════════════
-   9. FLOATING ICON ANIMATION
-       (feat cards icon on section enter)
-════════════════════════════════════ */
-const featObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.querySelectorAll('.feat-icon').forEach((icon, i) => {
-        setTimeout(() => {
-          icon.style.animation = 'iconBounce .45s ease both';
-          setTimeout(() => icon.style.animation = '', 500);
-        }, i * 80);
-      });
-    }
-  });
-}, { threshold: 0.3 });
-const fg = document.querySelector('.feat-grid');
-if (fg) featObs.observe(fg);
 </script>
-
-<style>
-/* ripple keyframe (injected via JS) */
-@keyframes rippleAnim {
-  to { transform:scale(1); opacity:0; }
-}
-/* hero-sub2 no-flicker before typewriter starts */
-.hero-sub2 { min-height: 1.5em; }
-</style>
 </body>
 </html>
