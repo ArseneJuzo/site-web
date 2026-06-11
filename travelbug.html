@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Bug – Discover More Than Destinations</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --teal:      #00c2c2;
+  --teal-dark: #009e9e;
+  --teal-glow: rgba(0,194,194,.4);
+  --navy:      #0b1826;
+  --white:     #ffffff;
+  --off-white: #f4f6f8;
+  --text:      #1c2b3a;
+  --muted:     #6b7a90;
+  --accent:    #ff6535;
+  --star:      #f59e0b;
+  --r:         14px;
+  --rlg:       22px;
+  --sh:        0 4px 24px rgba(0,0,0,.09);
+  --shm:       0 8px 36px rgba(0,0,0,.14);
+  --shl:       0 16px 56px rgba(0,0,0,.20);
+  --px:        clamp(18px,5vw,80px);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Open Sans', sans-serif; color: var(--text); background: #fff; overflow-x: hidden; }
+img  { display: block; max-width: 100%; }
+a    { text-decoration: none; }
+ul   { list-style: none; }
+button { font-family: inherit; }
+
+/* ── NAVBAR ─────────────────────────────── */
+.navbar {
+  position: fixed; inset: 0 0 auto;
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--px); height: 68px;
+  transition: background .35s, box-shadow .35s;
+}
+.navbar.scrolled {
+  background: rgba(11,24,38,.96);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 2px 20px rgba(0,0,0,.3);
+}
+
+.logo {
+  display: flex; align-items: center; gap: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800; font-size: 1.1rem; color: #fff;
+  white-space: nowrap;
+}
+.logo svg { width: 28px; height: 19px; flex-shrink: 0; }
+.logo-word { color: var(--teal); font-style: italic; }
+
+.nav-links { display: flex; gap: 28px; }
+.nav-links a { color: rgba(255,255,255,.88); font-size: .875rem; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--teal); }
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.nav-search {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,.1);
+  border: 1.5px solid rgba(255,255,255,.22);
+  border-radius: 24px; padding: 5px 6px 5px 15px; gap: 6px;
+}
+.nav-search input {
+  background: none; border: none; outline: none;
+  color: #fff; font-size: .82rem; width: 100px;
+}
+.nav-search input::placeholder { color: rgba(255,255,255,.45); }
+.nav-search-btn {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(255,255,255,.15); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s; flex-shrink: 0;
+}
+.nav-search-btn:hover { background: var(--teal); }
+.nav-search-btn svg { width: 12px; height: 12px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+.nav-lang { color: rgba(255,255,255,.85); font-size: .82rem; cursor: pointer; white-space: nowrap; }
+
+.nav-signup {
+  display: flex; align-items: center; gap: 6px;
+  border: 1.5px solid rgba(255,255,255,.5); border-radius: 24px;
+  padding: 7px 16px; background: transparent;
+  color: #fff; font-size: .82rem; font-weight: 600; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.nav-signup:hover { border-color: var(--teal); color: var(--teal); }
+.nav-signup svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink:0; }
+
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 23px; height: 2px; background: #fff; border-radius: 2px; }
+
+.mobile-drawer {
+  display: none; position: fixed; top: 68px; inset-inline: 0;
+  background: rgba(11,24,38,.97); padding: 18px var(--px) 26px;
+  z-index: 999; flex-direction: column; gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.mobile-drawer.open { display: flex; }
+.mobile-drawer a { color: rgba(255,255,255,.82); font-size: .92rem; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+
+/* ── HERO ────────────────────────────────── */
+.hero {
+  position: relative; width: 100%; height: 100vh; min-height: 620px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=85') center 30% / cover no-repeat;
+  animation: heroZoom 16s ease-in-out infinite alternate;
+}
+@keyframes heroZoom { from{transform:scale(1.02)} to{transform:scale(1.08)} }
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 65% 70% at 60% 42%, rgba(0,0,0,.04) 0%, transparent 65%),
+    linear-gradient(170deg, rgba(5,14,26,.6) 0%, rgba(5,14,26,.3) 50%, rgba(5,14,26,.65) 100%);
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 0 clamp(16px,4vw,40px);
+  animation: fadeUp .85s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:none} }
+
+.hero-h1 {
+  font-family: 'Montserrat', sans-serif; font-weight: 900;
+  font-size: clamp(2.5rem, 6.2vw, 5rem);
+  color: #fff; line-height: 1.07; letter-spacing: -.015em;
+  text-shadow: 0 3px 22px rgba(0,0,0,.38);
+  margin-bottom: .1em;
+}
+.hero-cursive {
+  font-family: 'Dancing Script', cursive; font-weight: 700;
+  font-size: clamp(2rem, 5.5vw, 4.1rem);
+  color: var(--teal); letter-spacing: .06em; line-height: 1.25;
+  text-shadow: 0 0 36px rgba(0,194,194,.55);
+  margin-bottom: 1em;
+  animation: fadeUp .85s .15s ease both; opacity: 0;
+}
+.hero-sub {
+  color: rgba(255,255,255,.82); font-size: clamp(.83rem,1.5vw,.98rem); line-height: 1.75;
+  max-width: 460px; margin-bottom: 2.2em;
+  animation: fadeUp .85s .28s ease both; opacity: 0;
+}
+.btn-explore {
+  display: inline-flex; align-items: center;
+  background: var(--teal); border-radius: 32px;
+  font-family: 'Montserrat', sans-serif; font-size: .88rem; font-weight: 700;
+  color: #fff; padding: 13px 12px 13px 24px; gap: 12px;
+  border: none; cursor: pointer;
+  box-shadow: 0 6px 28px var(--teal-glow);
+  transition: all .25s;
+  animation: fadeUp .85s .4s ease both; opacity: 0;
+}
+.btn-explore:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 10px 42px rgba(0,194,194,.52); }
+.btn-explore-icon {
+  width: 33px; height: 33px; background: rgba(0,0,0,.22); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: .7rem; flex-shrink: 0;
+}
+
+.hero-stats {
+  position: absolute; bottom: clamp(24px,5.5vh,60px); left: 0; right: 0;
+  display: flex; justify-content: center; gap: clamp(30px,8vw,108px);
+  z-index: 2; animation: fadeUp .9s .55s ease both; opacity: 0;
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: clamp(1.9rem,4.8vw,3.4rem); color: #fff; line-height: 1;
+}
+.stat-label { color: rgba(255,255,255,.68); font-size: clamp(.7rem,1.1vw,.82rem); margin-top: 6px; line-height: 1.4; }
+
+/* ── SCROLL REVEAL ───────────────────────── */
+.r  { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease; }
+.r.vis { opacity:1; transform:none; }
+.d1 { transition-delay:.1s } .d2 { transition-delay:.2s } .d3 { transition-delay:.3s }
+
+/* ── SECTION ─────────────────────────────── */
+.sec { padding: clamp(44px,8vh,88px) var(--px); }
+.sec-bg { background: var(--off-white); }
+
+.sec-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 30px;
+}
+.sec-title {
+  font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: clamp(1.25rem,2.4vw,1.7rem);
+}
+.btn-all {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--navy); color: #fff;
+  padding: 9px 18px; border-radius: 24px;
+  font-size: .78rem; font-weight: 700; border: none; cursor: pointer;
+  white-space: nowrap; transition: background .2s;
+}
+.btn-all:hover { background: var(--teal); }
+.btn-all-circle { width: 22px; height: 22px; background: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .62rem; }
+
+/* ── DESTINATIONS ───────────────────────── */
+.dest-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.dest-card { position: relative; border-radius: var(--rlg); overflow: hidden; aspect-ratio: .72; cursor: pointer; }
+.dest-card img { width:100%; height:100%; object-fit:cover; transition:transform .55s; }
+.dest-card:hover img { transform:scale(1.07); }
+.dest-ov { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.73) 0%,transparent 55%); }
+.dest-info { position:absolute; bottom:0; left:0; right:0; padding:16px; display:flex; align-items:flex-end; justify-content:space-between; }
+.dest-country { font-size:.67rem; color:rgba(255,255,255,.6); margin-bottom:2px; }
+.dest-city    { font-size:.98rem; font-weight:700; color:#fff; }
+.dest-arr {
+  width:30px; height:30px; flex-shrink:0;
+  background:rgba(255,255,255,.17); backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.28); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:.68rem; transition:background .2s;
+}
+.dest-card:hover .dest-arr { background:var(--teal); }
+
+/* ── PACKAGES ───────────────────────────── */
+.pkg-sub { font-size:.82rem; color:var(--muted); margin-bottom:28px; }
+.pkg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.pkg-card { background:#fff; border-radius:var(--rlg); overflow:hidden; box-shadow:var(--sh); transition:transform .3s,box-shadow .3s; }
+.pkg-card:hover { transform:translateY(-6px); box-shadow:var(--shl); }
+.pkg-img-w { position:relative; height:200px; overflow:hidden; }
+.pkg-img-w img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+.pkg-card:hover .pkg-img-w img { transform:scale(1.06); }
+.pkg-badge { position:absolute; top:12px; left:12px; background:var(--accent); color:#fff; font-size:.67rem; font-weight:800; padding:4px 10px; border-radius:9px; }
+.pkg-badge.pur { background:#7c3aed; } .pkg-badge.grn { background:#16a34a; }
+.pkg-body  { padding:17px 18px 20px; }
+.pkg-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:.97rem; margin-bottom:10px; }
+.pkg-meta  { display:flex; flex-wrap:wrap; gap:7px 11px; margin-bottom:11px; }
+.pkg-mi    { display:flex; align-items:center; gap:4px; font-size:.71rem; color:var(--muted); }
+.pkg-mi svg { width:11px; height:11px; stroke:var(--muted); fill:none; stroke-width:2; }
+.pkg-tags  { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:15px; }
+.pkg-tag   { font-size:.68rem; font-weight:500; color:var(--teal); background:rgba(0,194,194,.09); padding:3px 8px; border-radius:7px; }
+.pkg-foot  { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.pkg-old   { font-size:.72rem; color:var(--muted); text-decoration:line-through; }
+.pkg-now   { font-size:1.08rem; font-weight:800; }
+.pkg-per   { font-size:.69rem; color:var(--muted); }
+.btn-book  { background:var(--teal); color:#fff; padding:9px 17px; border-radius:18px; font-size:.77rem; font-weight:700; border:none; cursor:pointer; white-space:nowrap; transition:all .2s; }
+.btn-book:hover { background:var(--teal-dark); transform:scale(1.03); }
+
+/* ── ADVENTURE ──────────────────────────── */
+.adv-inner { display:grid; grid-template-columns:1.1fr 1fr; border-radius:var(--rlg); overflow:hidden; box-shadow:var(--shm); background:#e6f4f4; }
+.adv-img-w { position:relative; min-height:340px; }
+.adv-img-w img { width:100%; height:100%; object-fit:cover; }
+.adv-play {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:60px; height:60px; background:rgba(255,255,255,.92);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  box-shadow:var(--shm); cursor:pointer; font-size:1.1rem; transition:transform .2s,box-shadow .2s;
+}
+.adv-play:hover { transform:translate(-50%,-50%) scale(1.1); box-shadow:var(--shl); }
+.adv-txt { padding:44px 42px; display:flex; flex-direction:column; justify-content:center; }
+.adv-txt h2 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:clamp(1.25rem,2.4vw,1.85rem); line-height:1.25; margin-bottom:18px; }
+.adv-txt p  { font-size:.865rem; color:var(--muted); line-height:1.82; }
+
+/* ── WHY ─────────────────────────────────── */
+.why-ttl { font-family:'Montserrat',sans-serif; font-weight:800; font-size:clamp(1.25rem,2.4vw,1.7rem); text-align:center; margin-bottom:38px; }
+.why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.why-card { background:#fff; border-radius:var(--rlg); padding:26px 20px; box-shadow:var(--sh); text-align:center; transition:transform .3s,box-shadow .3s; }
+.why-card:hover { transform:translateY(-4px); box-shadow:var(--shm); }
+.why-icon { width:56px; height:56px; background:rgba(0,194,194,.1); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:1.5rem; }
+.why-card h4 { font-family:'Montserrat',sans-serif; font-weight:700; font-size:.93rem; margin-bottom:7px; }
+.why-card p  { font-size:.79rem; color:var(--muted); line-height:1.65; }
+
+/* ── TESTIMONIALS ───────────────────────── */
+.testi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.testi-card { background:#fafafa; border-radius:var(--rlg); padding:20px 17px; box-shadow:var(--sh); transition:transform .3s,box-shadow .3s; }
+.testi-card:hover { transform:translateY(-4px); box-shadow:var(--shm); }
+.testi-stars { color:var(--star); font-size:.8rem; margin-bottom:11px; }
+.testi-text  { font-size:.79rem; color:var(--muted); line-height:1.72; font-style:italic; margin-bottom:15px; }
+.testi-auth  { display:flex; align-items:center; gap:10px; }
+.testi-av    { width:37px; height:37px; border-radius:50%; object-fit:cover; border:2px solid var(--teal); flex-shrink:0; }
+.testi-name  { font-weight:700; font-size:.78rem; }
+.testi-loc   { font-size:.68rem; color:var(--muted); }
+
+/* ── MAP ─────────────────────────────────── */
+.map-box { background:#dce8f0; border-radius:var(--rlg); height:clamp(220px,28vw,330px); position:relative; overflow:hidden; }
+.map-box img { width:100%; height:100%; object-fit:cover; opacity:.5; }
+.pin { position:absolute; width:12px; height:12px; background:var(--teal); border-radius:50% 50% 50% 0; transform:rotate(-45deg); box-shadow:0 2px 10px rgba(0,194,194,.55); cursor:pointer; transition:transform .2s; }
+.pin:hover { transform:rotate(-45deg) scale(1.3); }
+.pin::after { content:''; position:absolute; inset:3px; background:#fff; border-radius:50%; }
+
+/* ── FOOTER ──────────────────────────────── */
+footer { background:var(--navy); padding:clamp(44px,6vh,68px) var(--px) 0; color:rgba(255,255,255,.68); }
+.ft-top { display:grid; grid-template-columns:1.8fr 1fr 1fr 1.65fr; gap:40px; padding-bottom:44px; border-bottom:1px solid rgba(255,255,255,.07); }
+.ft-brand .logo { margin-bottom:14px; }
+.ft-brand p { font-size:.81rem; line-height:1.7; max-width:210px; color:rgba(255,255,255,.48); }
+.ft-social { display:flex; gap:8px; margin-top:20px; }
+.ft-si { width:33px; height:33px; background:rgba(255,255,255,.08); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.77rem; cursor:pointer; transition:background .2s; color:#fff; }
+.ft-si:hover { background:var(--teal); }
+.ft-col h5 { color:#fff; font-weight:700; font-size:.86rem; margin-bottom:16px; }
+.ft-col ul { display:flex; flex-direction:column; gap:9px; }
+.ft-col a  { color:rgba(255,255,255,.48); font-size:.8rem; transition:color .2s; }
+.ft-col a:hover { color:var(--teal); }
+.ft-nl h5 { color:#fff; font-weight:700; font-size:.86rem; margin-bottom:12px; }
+.ft-nl p  { font-size:.79rem; color:rgba(255,255,255,.48); margin-bottom:13px; line-height:1.65; }
+.nl-row { display:flex; }
+.nl-row input { flex:1; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.11); border-right:none; border-radius:7px 0 0 7px; padding:10px 13px; color:#fff; font-size:.79rem; outline:none; }
+.nl-row input::placeholder { color:rgba(255,255,255,.3); }
+.nl-row button { background:var(--teal); border:none; color:#fff; padding:10px 15px; border-radius:0 7px 7px 0; font-size:.79rem; font-weight:700; cursor:pointer; transition:background .2s; white-space:nowrap; }
+.nl-row button:hover { background:var(--teal-dark); }
+.ft-bot { padding:18px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+.ft-copy { font-size:.75rem; color:rgba(255,255,255,.32); }
+.ft-big { font-family:'Montserrat',sans-serif; font-weight:900; font-size:clamp(3rem,13vw,10rem); color:rgba(255,255,255,.03); text-align:center; line-height:1; user-select:none; margin-top:-16px; padding-bottom:6px; overflow:hidden; }
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media(max-width:1060px){
+  .dest-grid { grid-template-columns:repeat(2,1fr); }
+  .pkg-grid  { grid-template-columns:repeat(2,1fr); }
+  .testi-grid{ grid-template-columns:repeat(2,1fr); }
+  .ft-top    { grid-template-columns:1fr 1fr; }
+  .adv-inner { grid-template-columns:1fr; }
+  .adv-img-w { min-height:250px; }
+}
+@media(max-width:768px){
+  .nav-links,.nav-search,.nav-lang { display:none; }
+  .hamburger { display:flex; }
+  .dest-grid { grid-template-columns:1fr 1fr; }
+  .pkg-grid  { grid-template-columns:1fr; }
+  .why-grid  { grid-template-columns:1fr 1fr; }
+  .testi-grid{ grid-template-columns:1fr 1fr; }
+  .ft-top    { grid-template-columns:1fr; gap:26px; }
+}
+@media(max-width:500px){
+  .testi-grid{ grid-template-columns:1fr; }
+  .why-grid  { grid-template-columns:1fr; }
+  .hero-stats{ gap:24px; bottom:18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="nb">
+  <a href="#" class="logo">
+    <!-- plane icon -->
+    <svg viewBox="0 0 28 19" fill="none">
+      <path d="M1 12l6.5-2.5 3 5 4-1.5L12 7l5-1.5c2-.65 4 .4 4 2.5s-2 3-4 2.5L15 11l-2.5 4-3-.8 1.5-4L1 12z" fill="#00c2c2"/>
+    </svg>
+    <span><span class="logo-word">Travel</span> Bug</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Destinations</a></li>
+    <li><a href="#">Tour Packages</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="nav-search">
+      <input type="text" placeholder="Search">
+      <button class="nav-search-btn" aria-label="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="15.5" y2="15.5"/></svg>
+      </button>
+    </div>
+    <span class="nav-lang">🌍 ENG ▾</span>
+    <button class="nav-signup">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      A Sign Up
+    </button>
+    <div class="hamburger" id="hbg" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mdrw">
+  <a href="#">Home</a><a href="#">Destinations</a><a href="#">Tour Packages</a>
+  <a href="#">Blog</a><a href="#">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-h1">Discover<br>More Than Destinations</h1>
+    <span class="hero-cursive">Without&nbsp;&nbsp;Limits</span>
+    <p class="hero-sub">From tropical beaches to iconic cities, we design seamless journeys tailored just for you. Flights, hotels, visas, and guided tours all in one place.</p>
+    <button class="btn-explore">
+      Explore Destination
+      <span class="btn-explore-icon">↗</span>
+    </button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" data-val="95" data-suf="%">0%</div><div class="stat-label">Customer<br>Statisfaction</div></div>
+    <div class="stat"><div class="stat-num" data-val="80" data-suf="+">0+</div><div class="stat-label">Popular<br>Destinations</div></div>
+    <div class="stat"><div class="stat-num" data-val="250" data-suf="+">0+</div><div class="stat-label">Experienced<br>Guide</div></div>
+  </div>
+</section>
+
+<!-- FEATURED DESTINATIONS -->
+<section class="sec">
+  <div class="sec-hdr r">
+    <h2 class="sec-title">Featured Destinations</h2>
+    <button class="btn-all">See All Destinations <span class="btn-all-circle">↗</span></button>
+  </div>
+  <div class="dest-grid">
+    <div class="dest-card r"><img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600&q=80" alt="Maldives" loading="lazy"><div class="dest-ov"></div><div class="dest-info"><div><div class="dest-country">Maldives</div><div class="dest-city">Malé</div></div><div class="dest-arr">↗</div></div></div>
+    <div class="dest-card r d1"><img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600&q=80" alt="Phuket" loading="lazy"><div class="dest-ov"></div><div class="dest-info"><div><div class="dest-country">Thailand</div><div class="dest-city">Phuket</div></div><div class="dest-arr">↗</div></div></div>
+    <div class="dest-card r d2"><img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80" alt="Bali" loading="lazy"><div class="dest-ov"></div><div class="dest-info"><div><div class="dest-country">Indonesia</div><div class="dest-city">Bali</div></div><div class="dest-arr">↗</div></div></div>
+    <div class="dest-card r d3"><img src="https://images.unsplash.com/photo-1553522991-c4fca7a5e48e?w=600&q=80" alt="Cancún" loading="lazy"><div class="dest-ov"></div><div class="dest-info"><div><div class="dest-country">Mexico</div><div class="dest-city">Cancún</div></div><div class="dest-arr">↗</div></div></div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="sec sec-bg">
+  <div class="sec-hdr r">
+    <div><h2 class="sec-title">Popular Tour Packages</h2><p class="pkg-sub">Hand-picked packages with flights, hotels, and guided tours included</p></div>
+  </div>
+  <div class="pkg-grid">
+    <!-- Maldives -->
+    <div class="pkg-card r">
+      <div class="pkg-img-w"><img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=700&q=80" alt="Maldives" loading="lazy"><span class="pkg-badge">$100 Save</span></div>
+      <div class="pkg-body">
+        <h3 class="pkg-title">Maldives Luxury Escape</h3>
+        <div class="pkg-meta">
+          <span class="pkg-mi"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>7 Days / 6 Nights</span>
+          <span class="pkg-mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>2–8 People</span>
+          <span class="pkg-mi">⭐ 4.9</span>
+        </div>
+        <div class="pkg-tags"><span class="pkg-tag">Overwater Villa</span><span class="pkg-tag">Snorkeling</span><span class="pkg-tag">Spa Package</span><span class="pkg-tag">Sunset Cruise</span></div>
+        <div class="pkg-foot"><div><div class="pkg-old">$3999 / person</div><span class="pkg-now">$2499</span><span class="pkg-per"> / person</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <!-- Santorini -->
+    <div class="pkg-card r d1">
+      <div class="pkg-img-w"><img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=700&q=80" alt="Santorini" loading="lazy"><span class="pkg-badge pur">Best Seller</span></div>
+      <div class="pkg-body">
+        <h3 class="pkg-title">Santorini Romance</h3>
+        <div class="pkg-meta">
+          <span class="pkg-mi"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>5 Days / 4 Nights</span>
+          <span class="pkg-mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>2–8 People</span>
+          <span class="pkg-mi">⭐ 4.8</span>
+        </div>
+        <div class="pkg-tags"><span class="pkg-tag">Wine Tasting</span><span class="pkg-tag">Caldera Hike</span><span class="pkg-tag">Private Tour</span><span class="pkg-tag">Beach Dinner</span></div>
+        <div class="pkg-foot"><div><div class="pkg-old">$2499 / person</div><span class="pkg-now">$1899</span><span class="pkg-per"> / person</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <!-- Bali -->
+    <div class="pkg-card r d2">
+      <div class="pkg-img-w"><img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&q=80" alt="Bali" loading="lazy"><span class="pkg-badge grn">$500 Save</span></div>
+      <div class="pkg-body">
+        <h3 class="pkg-title">Bali Adventure</h3>
+        <div class="pkg-meta">
+          <span class="pkg-mi"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>6 Days / 5 Nights</span>
+          <span class="pkg-mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>4–12 People</span>
+          <span class="pkg-mi">⭐ 4.7</span>
+        </div>
+        <div class="pkg-tags"><span class="pkg-tag">Temple Visit</span><span class="pkg-tag">Rice Terraces</span><span class="pkg-tag">Rafting</span><span class="pkg-tag">Cooking Class</span></div>
+        <div class="pkg-foot"><div><div class="pkg-old">$3999 / person</div><span class="pkg-now">$2499</span><span class="pkg-per"> / person</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVENTURE -->
+<section class="sec">
+  <div class="adv-inner r">
+    <div class="adv-img-w">
+      <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=80" alt="Kayaking" loading="lazy">
+      <div class="adv-play">▶</div>
+    </div>
+    <div class="adv-txt">
+      <h2>Adventures That Stay With You Forever</h2>
+      <p>Glide into adventure and discover what it truly means to feel alive. As your paddle dips into crystal-clear waters and towering cliffs rise around you, the world slows down just enough for you to take it all in. The gentle rhythm of the waves, the warmth of the sun on your back, and the untouched beauty of nature create a moment that feels both exhilarating and peaceful. This isn't just a kayak ride—it's an invitation to explore hidden coves, embrace new horizons, and reconnect with the wild spirit within you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE -->
+<section class="sec sec-bg">
+  <h2 class="why-ttl r">Why Chone Travel Bug</h2>
+  <div class="why-grid">
+    <div class="why-card r"><div class="why-icon">🛡️</div><h4>Safe &amp; Secure</h4><p>All trips are fully insured with 24/7 emergency support worldwide.</p></div>
+    <div class="why-card r d1"><div class="why-icon">🎧</div><h4>24/7 Support</h4><p>Our travel experts are available around the clock for any assistance.</p></div>
+    <div class="why-card r d2"><div class="why-icon">💰</div><h4>Best Price Guarantee</h4><p>Find a lower price? We'll match it and give you 5% extra off.</p></div>
+    <div class="why-card r"><div class="why-icon">🌍</div><h4>100+ Destinations</h4><p>From hidden gems to iconic landmarks, explore the world with us.</p></div>
+    <div class="why-card r d1"><div class="why-icon">📅</div><h4>Flexible Booking</h4><p>Free cancellation up to 48 hours before departure on most packages.</p></div>
+    <div class="why-card r d2"><div class="why-icon">🏆</div><h4>Award Winning</h4><p>Voted #1 travel agency for customer satisfaction three years running.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec">
+  <div class="sec-hdr r"><h2 class="sec-title">What Our Travelers Say</h2></div>
+  <div class="testi-grid">
+    <div class="testi-card r"><div class="testi-stars">★★★★★</div><p class="testi-text">"Traveling with them was an absolute dream. Every detail was taken care of, making everything so seamless and memorable."</p><div class="testi-auth"><img class="testi-av" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah"><div><div class="testi-name">Sarah A. Michael S.</div><div class="testi-loc">New York, USA</div></div></div></div>
+    <div class="testi-card r d1"><div class="testi-stars">★★★★★</div><p class="testi-text">"The Maldives trip exceeded all expectations. The attention to detail was exceptional. Highly recommended for couples!"</p><div class="testi-auth"><img class="testi-av" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Olivia"><div><div class="testi-name">Olivia K.</div><div class="testi-loc">London, UK</div></div></div></div>
+    <div class="testi-card r d2"><div class="testi-stars">★★★★☆</div><p class="testi-text">"Bali was mesmerizing — the temples, nature, food… everything was perfect and incredibly well-organized."</p><div class="testi-auth"><img class="testi-av" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Daniel"><div><div class="testi-name">Daniel &amp; Priya S.</div><div class="testi-loc">Toronto, CA</div></div></div></div>
+    <div class="testi-card r d3"><div class="testi-stars">★★★★★</div><p class="testi-text">"Incredible service from start to finish. Guides were knowledgeable and friendly. Will book again without hesitation!"</p><div class="testi-auth"><img class="testi-av" src="https://randomuser.me/api/portraits/men/67.jpg" alt="David"><div><div class="testi-name">David S.</div><div class="testi-loc">Sydney, AU</div></div></div></div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="sec sec-bg">
+  <div class="sec-hdr r"><h2 class="sec-title">Our Global Destinations</h2></div>
+  <div class="map-box r">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1200px-World_map_-_low_resolution.svg.png" alt="World map">
+    <div class="pin" style="top:33%;left:20%"></div>
+    <div class="pin" style="top:38%;left:47%"></div>
+    <div class="pin" style="top:36%;left:53%"></div>
+    <div class="pin" style="top:48%;left:64%"></div>
+    <div class="pin" style="top:54%;left:72%"></div>
+    <div class="pin" style="top:30%;left:80%"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <a href="#" class="logo">
+        <svg viewBox="0 0 28 19" fill="none"><path d="M1 12l6.5-2.5 3 5 4-1.5L12 7l5-1.5c2-.65 4 .4 4 2.5s-2 3-4 2.5L15 11l-2.5 4-3-.8 1.5-4L1 12z" fill="#00c2c2"/></svg>
+        <span><span class="logo-word">Travel</span> Bug</span>
+      </a>
+      <p>Travel Bug turns your travel dreams into living stories. Explore the world with us.</p>
+      <div class="ft-social">
+        <div class="ft-si">f</div><div class="ft-si">𝕏</div><div class="ft-si">in</div><div class="ft-si">▶</div><div class="ft-si">📸</div>
+      </div>
+    </div>
+    <div class="ft-col"><h5>Quick Links</h5><ul><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Tour Packages</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="ft-col"><h5>Destinations</h5><ul><li><a href="#">Bali</a></li><li><a href="#">Thailand</a></li><li><a href="#">Maldives</a></li><li><a href="#">Santorini</a></li><li><a href="#">Philippines</a></li></ul></div>
+    <div class="ft-nl">
+      <h5>Subscribe to Our Newsletter</h5>
+      <p>Get the latest travel deals and destination guides delivered to your inbox.</p>
+      <div class="nl-row"><input type="email" placeholder="info@example.com"><button>Subscribe</button></div>
+    </div>
+  </div>
+  <div class="ft-bot"><span class="ft-copy">Copyright 2024 © Travel Bug</span></div>
+  <div class="ft-big">TRAVELBUG</div>
+</footer>
+
+<script>
+// Navbar scroll
+const nb = document.getElementById('nb');
+window.addEventListener('scroll', () => nb.classList.toggle('scrolled', scrollY > 60), {passive:true});
+
+// Mobile menu
+function toggleMenu() {
+  document.getElementById('mdrw').classList.toggle('open');
+}
+
+// Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('vis'); ro.unobserve(e.target); } });
+}, {threshold: 0.1});
+document.querySelectorAll('.r').forEach(el => ro.observe(el));
+
+// Counter animation for hero stats
+function animCount(el) {
+  const target = +el.dataset.val, suf = el.dataset.suf;
+  let val = 0, dur = 1600, step = target / (dur/16);
+  const t = setInterval(() => {
+    val += step;
+    if (val >= target) { val = target; clearInterval(t); }
+    el.textContent = Math.floor(val) + suf;
+  }, 16);
+}
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.stat-num[data-val]').forEach(animCount);
+      statsObs.disconnect();
+    }
+  });
+}, {threshold: 0.5});
+const hs = document.querySelector('.hero-stats');
+if (hs) statsObs.observe(hs);
+</script>
+</body>
+</html>
